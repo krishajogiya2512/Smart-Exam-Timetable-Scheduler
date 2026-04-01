@@ -1,312 +1,173 @@
-# Smart Exam Timetable Generator  
-### Milestone 1: Setup, Research, and Architecture  
-### AI-Assisted Academic Scheduling System
+# 📅 Smart Exam Timetable Scheduler
 
 ---
 
-# 1. Project Overview
+## 📌 Project Overview
 
-The **Smart Exam Timetable Generator** is an AI-assisted scheduling system designed to automatically generate optimized exam timetables based on subject difficulty, exam constraints, and spacing requirements.
+The Smart Exam Timetable Scheduler is a rule-based, AI-assisted system designed to automate the generation and validation of college exam schedules.
 
-Traditional exam timetable creation is often manual, time-consuming, and prone to poor scheduling decisions such as:
-
-- Back-to-back difficult exams  
-- Uneven spacing between subjects  
-- Scheduling conflicts  
-- Increased student stress  
-
-This project introduces a **Smart Scheduling System** that leverages AI-assisted logic and automation to generate **balanced, conflict-free, and optimized exam timetables**.
-
-The system allows users to input:
-
-- Subject names  
-- Subject difficulty levels  
-- Exam duration  
-- Available exam dates  
-- Scheduling constraints  
-
-The platform then processes this information using **AI-assisted scheduling logic**, ensuring:
-
-- Balanced subject distribution  
-- Proper spacing between exams  
-- Conflict-free scheduling  
-- Reduced student stress  
-
-The generated timetable is automatically stored and visualized in **Google Sheets**, enabling easy tracking and updates.
-
-This architecture prioritizes **rapid prototyping using no-code tools**, allowing efficient validation of scheduling logic while maintaining scalability for future UI development.
+It integrates structured data collection, AI-based scheduling, and rule-based validation to reduce manual effort and ensure constraint satisfaction.
 
 ---
 
-# 2. The Tech Stack
+## 📌 Problem Statement
 
-## AI Scheduling & Optimization
-- **ChatGPT / Gemini** — Smart timetable generation and optimization logic
-- **Structured Prompt Engineering** — Difficulty balancing and scheduling rules
+Colleges face difficulty in creating exam timetables due to multiple constraints such as student overlaps, room capacity limits, and back-to-back exams.
 
-## Data Input
-- **Google Forms** — Subject and constraint input
+Manual scheduling is time-consuming, error-prone, and inefficient.
 
-## Automation & Workflow
-- **n8n / Zapier** — Automated scheduling workflow
-
-## Storage & Dashboard
-- **Google Sheets** — Timetable storage and validation dashboard
-
-## Documentation & Planning
-- **Notion** — Project documentation and milestone planning
+This project aims to build a rule-based, AI-assisted system that generates and validates exam timetables automatically using structured data and constraint checking.
 
 ---
 
-# 3. Architecture & Data Flow Mapping
+## ⚙️ Constraints
 
-## The "Input-to-Timetable Intelligence" Flow
+### 1. No Student Overlap
 
-### Step-by-Step Data Journey
+A student cannot have two exams scheduled in the same time slot.
 
-### 1. Subject & Constraint Input
+### 2. Room Capacity Constraint
 
-Users submit:
+Assigned room capacity must be greater than or equal to the number of enrolled students.
 
-- Subject Names  
-- Difficulty Level (Easy / Medium / Hard)  
-- Exam Duration  
-- Available Exam Dates  
-- Minimum Gap Requirements  
+### 3. Back-to-Back Minimization
 
-Through **Google Forms**
-
-↓
-
-### 2. AI-Assisted Scheduling Logic
-
-The system sends data to **ChatGPT** using structured prompts.
-
-AI performs:
-
-- Difficulty balancing  
-- Gap optimization  
-- Conflict detection  
-- Intelligent date allocation  
-
-↓
-
-### 3. Smart Timetable Generation
-
-AI generates:
-
-- Optimized exam schedule  
-- Balanced subject distribution  
-- Minimum gap enforcement  
-- Conflict-free timetable  
-
-↓
-
-### 4. Storage & Validation
-
-Generated timetable is stored in **Google Sheets**
-
-Validation rules include:
-
-- No overlapping exams  
-- Minimum gap enforcement  
-- Balanced difficulty distribution  
-- Date availability validation  
-
-↓
-
-### 5. Automated Timetable Dashboard
-
-Google Sheets Dashboard Displays:
-
-- Exam Dates  
-- Subject Order  
-- Difficulty Distribution  
-- Gap Analysis  
-
-↓
-
-### 6. Final Timetable Output
-
-The system generates:
-
-- Final Exam Timetable  
-- Optimized Subject Distribution  
-- Scheduling Summary  
+Avoid consecutive exams for the same student on the same day.
 
 ---
 
-# 4. Automation & Threshold Rules
+## 📊 Evaluation Metrics
 
-## Difficulty-Based Scheduling Rules
-
-Subjects categorized as:
-
-| Difficulty | Scheduling Rule |
-|------------|-----------------|
-| Hard | Minimum 2–3 day gap |
-| Medium | Minimum 1–2 day gap |
-| Easy | Flexible scheduling |
+* Total number of student conflicts
+* Number of room capacity violations
+* Number of back-to-back exams
+* Room utilization efficiency
 
 ---
 
-## Smart Scheduling Rules
+## 🔄 System Workflow
 
-The system ensures:
-
-- No consecutive hard subjects  
-- Balanced exam distribution  
-- Minimum rest days  
-- Conflict-free scheduling  
-
----
-
-## Conflict Detection Rules
-
-System prevents:
-
-- Multiple exams on same day  
-- Overlapping exam schedules  
-- Scheduling on unavailable dates  
+```
+Google Form → Google Sheets → AI (ChatGPT)
+→ Proposed Schedule → Validation (Google Sheets)
+→ Conflict Detection → Final Timetable
+```
 
 ---
 
-## Smart Scheduling Example
+## 🏗️ System Architecture
 
-Hard Subject → Rest Gap → Medium Subject → Easy Subject
+The system follows a modular pipeline architecture where each component handles a specific responsibility in the timetable generation process.
 
-This improves:
+### 🔹 Components
 
-- Student performance  
-- Stress reduction  
-- Study efficiency  
-
----
-
-# 5. Security & System Limitations
-
-## UI Abstraction
-
-- Structured Google Form inputs  
-- Controlled workflow pipeline  
-- Input validation logic  
+1. Data Collection Layer (Google Forms)
+2. Data Storage Layer (Google Sheets)
+3. AI Scheduling Engine (ChatGPT / Gemini)
+4. Validation & Conflict Detection Layer (Google Sheets logic)
+5. Evaluation Layer (metrics comparison)
+6. Output Layer (Canva export)
 
 ---
 
-## AI Scheduling Limitations
+## 🔄 Data Flow Mapping
 
-- AI suggestions depend on input quality  
-- Limited to provided subject data  
-- Does not consider individual study preferences  
-
----
-
-## Scope Definition
-
-This platform is designed as:
-
-✅ Smart Exam Scheduling System  
-✅ AI-Assisted Timetable Generator  
-✅ Conflict-Free Scheduling Tool  
-✅ Academic Planning Assistant  
-
-This system is **not designed as**:
-
-❌ Institutional Exam Management System  
-❌ Full Academic ERP  
-❌ Student Performance Prediction System  
+1. User inputs data via Google Forms
+2. Data is stored in Google Sheets
+3. AI model processes structured data
+4. Initial timetable is generated
+5. Validation rules are applied
+6. Conflicts are detected and highlighted
+7. Final optimized timetable is selected
 
 ---
 
-# Appendix: Strategic Project Defense (Review Q&A)
+## 🤖 Automation & Rule-Based Logic
 
-## The "Why"
+The system automates scheduling and validation using predefined rules:
 
-Manual exam scheduling often leads to:
+* Automatic detection of student overlaps using COUNTIF / FILTER
+* Room capacity validation using lookup formulas
+* Back-to-back exam detection using time slot comparisons
+* Conditional formatting to highlight conflicts
 
-- Back-to-back difficult exams  
-- Poor subject distribution  
-- Increased student stress  
+### 🔹 Threshold Rules
 
-This project introduces AI-assisted scheduling to **optimize exam distribution and improve academic planning efficiency**.
-
----
-
-## The "Approach"
-
-We leverage AI-assisted scheduling logic and automation tools to quickly generate optimized timetables while maintaining flexibility for future improvements.
+* Conflict count should be minimized (target = 0)
+* Room violations should be 0
+* Back-to-back exams should be as low as possible
 
 ---
 
-## The "Next Step"
+## 🗂️ Data Structure (Google Sheets)
 
-For Milestone 2, we will:
+### Courses
 
-- Build UI for timetable generation  
-- Add visualization dashboard  
-- Improve AI scheduling logic  
+| Course ID | Course Name |
 
----
+### Students
 
-# Milestone 1 Deliverables
+| Student ID | Name |
 
-- Problem Definition  
-- Architecture Design  
-- Workflow Mapping  
-- Scheduling Rules  
-- Tech Stack Finalization  
-- Documentation  
+### Enrollments
 
----
+| Student ID | Course ID |
 
-# Milestone 2 (Next Phase)
+### Rooms
 
-- UI Development  
-- Advanced Scheduling Logic  
-- Dashboard Visualization  
-- Export Options  
+| Room ID | Capacity |
+
+### Time Slots
+
+| Slot ID | Date | Time |
 
 ---
 
-# Future Enhancements
+## 🧠 Approach
 
-- Calendar Integration  
-- Email Notifications  
-- AI Difficulty Prediction  
-- Multi-class Scheduling  
+The system uses structured input data collected through Google Forms and stored in Google Sheets.
 
----
+An AI model generates an initial timetable based on defined constraints. The schedule is then validated using rule-based logic implemented in Google Sheets to detect conflicts.
 
-# Project Scope
-
-This project demonstrates:
-
-✅ AI Scheduling Automation  
-✅ Smart Exam Planning  
-✅ Conflict-Free Timetable Generation  
-✅ Academic Planning Optimization  
+Multiple schedule versions can be compared, and the one with minimal conflicts is selected.
 
 ---
 
-# Project Status
+## 🔐 Security Considerations
 
-**Milestone 1:** Completed  
-**Milestone 2:** In Progress  
-
----
-
-# Tech Stack Summary
-
-- ChatGPT / Gemini  
-- Google Forms  
-- Google Sheets  
-- n8n / Zapier  
-- Notion  
+* Data access is restricted through Google Sheets permissions
+* No sensitive personal data is stored beyond required academic details
+* Controlled access ensures only authorized users can modify schedules
 
 ---
 
-# Project Vision
+## ⚠️ Limitations
 
-The **Smart Exam Timetable Generator** demonstrates how AI-assisted scheduling can automate academic planning, reduce manual effort, and create optimized exam timetables for improved learning outcomes.
+* Does not use advanced optimization algorithms
+* AI-generated schedules are not guaranteed to be optimal
+* Large datasets may require manual adjustments
 
----# Smart-Exam-Timetable-Scheduler
+---
+
+## 🎨 UI Abstraction
+
+The system does not include a traditional frontend UI.
+
+Instead:
+
+* Google Forms acts as the input interface
+* Google Sheets acts as the control and validation interface
+* Canva provides the final visual output
+
+This approach simplifies development while maintaining functionality.
+
+---
+
+## 🛠️ Tech Stack
+
+* ChatGPT / Gemini (schedule generation)
+* Google Forms (data collection)
+* Google Sheets (data handling + validation)
+* Canva (visual timetable design)
+
+---

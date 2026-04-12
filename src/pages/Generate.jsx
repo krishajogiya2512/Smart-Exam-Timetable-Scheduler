@@ -7,6 +7,7 @@ import Step3 from '../components/generate/Step3';
 export default function Generate({ onComplete }) {
   const [currentStep, setCurrentStep] = useState(1);
   const [courses, setCourses] = useState([]);
+  const [students, setStudents] = useState([]);
   const [rooms, setRooms] = useState([]);
   const [slots, setSlots] = useState([]);
 
@@ -34,6 +35,8 @@ export default function Generate({ onComplete }) {
         <Step1 
           courses={courses} 
           setCourses={setCourses} 
+          students={students}
+          setStudents={setStudents}
           onNext={handleNext} 
           onBack={onComplete}
         />

@@ -60,4 +60,8 @@ dist-ssr
 
 # OS metadata
 .DS_Store
+<<<<<<< HEAD
 Thumbs.db
+=======
+Thumbs.db
+>>>>>>> feature/krisha-timetable

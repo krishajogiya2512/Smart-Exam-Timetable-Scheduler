@@ -1,29 +1,21 @@
-<<<<<<< HEAD
-import Vaishvi from "./components/vaishvi";
+import React, { useState } from 'react';
+import Sidebar from './components/dashboard/Sidebar';
+import Dashboard from './pages/Dashboard';
+import Generate from './pages/Generate';
 
 function App() {
-  return (
-    <div style={{ margin: 0, padding: 0 }}>
-      <Vaishvi />
-=======
-import React from 'react';
-import Sidebar from './Components/Sidebar';
-import GenerateTimetable from './Components/GenerateTimetable';
+  const [currentPage, setCurrentPage] = useState('dashboard');
 
-function App() {
   return (
     <div className="app-container">
-      <Sidebar />
-      <main className="main-content">
-        <GenerateTimetable />
-      </main>
->>>>>>> feature/krisha-timetable
+      {/* Global Sidebar */}
+      <Sidebar activePage={currentPage} onNavigate={setCurrentPage} />
+      
+      {/* Dynamic Content */}
+      {currentPage === 'dashboard' && <Dashboard onGenerateClick={() => setCurrentPage('generate')} />}
+      {currentPage === 'generate' && <Generate onComplete={() => setCurrentPage('dashboard')} />}
     </div>
   );
 }
 
-<<<<<<< HEAD
 export default App;
-=======
-export default App;
->>>>>>> feature/krisha-timetable

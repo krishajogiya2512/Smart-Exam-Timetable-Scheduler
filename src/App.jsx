@@ -1,9 +1,9 @@
-import Step2 from "./components/Step2";
+import Vaishvi from "./components/vaishvi";
 
 function App() {
   return (
-    <div>
-      <Step2 />
+    <div style={{ margin: 0, padding: 0 }}>
+      <Vaishvi />
     </div>
   );
 }

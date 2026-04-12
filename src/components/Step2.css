@@ -120,3 +120,14 @@ background:#6c63ff;
 color:white;
 border:none;
 }
+.time-box{
+display:flex;
+gap:6px;
+width:100%;
+}
+
+select{
+padding:8px;
+border-radius:8px;
+border:1px solid #ddd;
+}

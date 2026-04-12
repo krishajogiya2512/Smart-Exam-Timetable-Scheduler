@@ -1,0 +1,122 @@
+.step2-wrapper{
+padding:20px;
+background:#f6f7fb;
+min-height:100vh;
+}
+
+.step2-container{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:14px;
+box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.labels{
+display:flex;
+justify-content:space-between;
+margin-bottom:6px;
+font-size:13px;
+color:#777;
+}
+
+.inputs{
+display:flex;
+gap:10px;
+margin-bottom:12px;
+}
+
+input{
+padding:10px;
+border:1px solid #ddd;
+border-radius:8px;
+width:100%;
+}
+
+.add-btn{
+width:100%;
+padding:12px;
+border:1px dashed #ccc;
+background:transparent;
+border-radius:8px;
+margin-bottom:15px;
+cursor:pointer;
+}
+
+.table-header{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+font-size:13px;
+color:#777;
+margin-bottom:8px;
+}
+
+.room-row{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+align-items:center;
+margin-bottom:10px;
+}
+
+.util-bar{
+height:6px;
+background:#eee;
+border-radius:10px;
+}
+
+.util-fill{
+height:100%;
+background:#22c55e;
+border-radius:10px;
+}
+
+.slot-card{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#f9fafc;
+padding:12px;
+border-radius:10px;
+margin-bottom:10px;
+}
+
+.slot-card p{
+margin:0;
+font-size:13px;
+color:#666;
+}
+
+.slot-id{
+background:#e8e7ff;
+padding:4px 10px;
+border-radius:8px;
+font-size:12px;
+color:#6c63ff;
+}
+
+.bottom-buttons{
+display:flex;
+justify-content:flex-end;
+gap:12px;
+margin-top:20px;
+}
+
+.back-btn{
+padding:10px 16px;
+border-radius:8px;
+border:1px solid #ddd;
+background:white;
+}
+
+.next-btn{
+padding:10px 18px;
+border-radius:8px;
+background:#6c63ff;
+color:white;
+border:none;
+}

@@ -59,7 +59,8 @@ export default function Generate({ onComplete }) {
           rooms={rooms} 
           slots={slots} 
           onBack={handleBack} 
-          onComplete={onComplete} 
+          onComplete={onComplete}
+          onEditStep={(step) => setCurrentStep(step)}
         />
       )}
     </div>

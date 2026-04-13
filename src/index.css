@@ -304,9 +304,15 @@ h1, h2, h3, h4 {
 
 /* Action Buttons */
 .action-buttons {
+  position: sticky;
+  bottom: 0;
+  background: var(--bg);
   display: flex;
   justify-content: space-between;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.02);
   margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid var(--border);
+  border: 1px solid var(--border);
+  z-index: 10;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Step3.css';
 
-export default function Step3({ courses, rooms, slots, onBack, onComplete }) {
+export default function Step3({ courses, rooms, slots, onBack, onComplete, onEditStep }) {
   return (
     <>
       <div style={{ marginBottom: '24px' }}>
@@ -16,7 +16,7 @@ export default function Step3({ courses, rooms, slots, onBack, onComplete }) {
         <div className="card" style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
             <h3 className="text-sm">Courses & Students</h3>
-            <button className="btn btn-secondary" style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '6px' }}>Edit</button>
+            <button className="btn btn-secondary" style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '6px' }} onClick={() => onEditStep && onEditStep(1)}>Edit</button>
           </div>
           
           <div className="step3-list">
@@ -33,7 +33,7 @@ export default function Step3({ courses, rooms, slots, onBack, onComplete }) {
         <div className="card" style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
             <h3 className="text-sm">Rooms & Time Slots</h3>
-            <button className="btn btn-secondary" style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '6px' }}>Edit Slots</button>
+            <button className="btn btn-secondary" style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '6px' }} onClick={() => onEditStep && onEditStep(2)}>Edit Slots</button>
           </div>
 
           <div style={{ marginBottom: '16px' }}>

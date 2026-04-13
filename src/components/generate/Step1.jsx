@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "../../styles/Modal.css";
 
 export default function Step1({ courses, setCourses, students, setStudents, onNext, onBack }) {
   const [courseName, setCourseName] = useState("");
@@ -7,6 +8,9 @@ export default function Step1({ courses, setCourses, students, setStudents, onNe
   const [studentName, setStudentName] = useState("");
   const [enrolledCourses, setEnrolledCourses] = useState("");
 
+  const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
+  const [isStudentModalOpen, setIsStudentModalOpen] = useState(false);
+
   const addCourse = () => {
     if (!courseName || !courseStudents) return;
     setCourses([...courses, { name: courseName, students: courseStudents }]);
@@ -14,11 +18,27 @@ export default function Step1({ courses, setCourses, students, setStudents, onNe
     setCourseStudents("");
   };
 
+  const editCourse = (index) => {
+    const item = courses[index];
+    setCourseName(item.name);
+    setCourseStudents(item.students);
+    setCourses(courses.filter((_, i) => i !== index));
+    setIsCourseModalOpen(false);
+  };
+
   const addStudent = () => {
     if (!studentName || !enrolledCourses) return;
     setStudents([...students, { name: studentName, courses: enrolledCourses }]);
     setStudentName("");
     setEnrolledCourses("");
+  };
+
+  const editStudent = (index) => {
+    const item = students[index];
+    setStudentName(item.name);
+    setEnrolledCourses(item.courses);
+    setStudents(students.filter((_, i) => i !== index));
+    setIsStudentModalOpen(false);
   };
 
   return (
@@ -35,7 +55,7 @@ export default function Step1({ courses, setCourses, students, setStudents, onNe
               <input 
                 type="text" 
                 className="input-field" 
-                placeholder="e.g. Mathematics" 
+                placeholder="" 
                 value={courseName} 
                 onChange={e => setCourseName(e.target.value)} 
               />
@@ -45,7 +65,7 @@ export default function Step1({ courses, setCourses, students, setStudents, onNe
               <input 
                 type="number" 
                 className="input-field" 
-                placeholder="e.g. 60" 
+                placeholder="" 
                 value={courseStudents} 
                 onChange={e => setCourseStudents(e.target.value)} 
               />
@@ -61,10 +81,9 @@ export default function Step1({ courses, setCourses, students, setStudents, onNe
           </button>
 
           {courses.length > 0 && (
-            <div style={{ marginTop: '24px' }}>
-              {courses.map((c, idx) => (
-                <span key={idx} className="chip">{c.name} — {c.students}</span>
-              ))}
+            <div style={{ marginTop: '24px', padding: '16px', background: '#f9fafb', border: '1px solid var(--border)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span className="text-sm" style={{ color: 'var(--text-gray)' }}>Total Courses: <strong style={{ color: 'var(--text-dark)' }}>{courses.length}</strong></span>
+              <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.75rem', background: 'white' }} onClick={() => setIsCourseModalOpen(true)}>View Courses</button>
             </div>
           )}
         </div>
@@ -79,7 +98,7 @@ export default function Step1({ courses, setCourses, students, setStudents, onNe
               <input 
                 type="text" 
                 className="input-field" 
-                placeholder="e.g. Rahul" 
+                placeholder="" 
                 value={studentName} 
                 onChange={e => setStudentName(e.target.value)} 
               />
@@ -89,10 +108,16 @@ export default function Step1({ courses, setCourses, students, setStudents, onNe
               <input 
                 type="text" 
                 className="input-field" 
-                placeholder="e.g. Mathematics, Physics" 
+                placeholder="" 
+                list="course-suggestions"
                 value={enrolledCourses} 
                 onChange={e => setEnrolledCourses(e.target.value)} 
               />
+              <datalist id="course-suggestions">
+                {courses.map((c, idx) => (
+                   <option key={idx} value={c.name} />
+                ))}
+              </datalist>
             </div>
           </div>
           
@@ -113,23 +138,9 @@ export default function Step1({ courses, setCourses, students, setStudents, onNe
           </div>
           
           {students.length > 0 && (
-            <div className="table-container" style={{ marginTop: 'auto' }}>
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Student</th>
-                    <th>Courses enrolled</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {students.map((student, idx) => (
-                    <tr key={idx}>
-                      <td style={{ fontWeight: 500 }}>{student.name}</td>
-                      <td>{student.courses}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div style={{ marginTop: '24px', padding: '16px', background: '#f9fafb', border: '1px solid var(--border)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span className="text-sm" style={{ color: 'var(--text-gray)' }}>Total Students: <strong style={{ color: 'var(--text-dark)' }}>{students.length}</strong></span>
+              <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.75rem', background: 'white' }} onClick={() => setIsStudentModalOpen(true)}>View Students</button>
             </div>
           )}
         </div>
@@ -139,6 +150,56 @@ export default function Step1({ courses, setCourses, students, setStudents, onNe
         <button className="btn btn-secondary" onClick={onBack}>Back</button>
         <button className="btn btn-primary" onClick={onNext}>Next — Rooms</button>
       </div>
+
+      {isCourseModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsCourseModalOpen(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3 className="modal-title">Courses</h3>
+              <button className="modal-close" onClick={() => setIsCourseModalOpen(false)}>×</button>
+            </div>
+            <div className="modal-body">
+              {courses.length === 0 ? <p className="text-gray text-sm">No courses added yet.</p> : courses.map((course, index) => (
+                <div key={index} className="modal-item">
+                  <div>
+                    <span className="modal-item-title">{course.name}</span>
+                    <span className="modal-item-subtitle">{course.students} students</span>
+                  </div>
+                  <div className="modal-actions">
+                    <button className="modal-icon-btn" onClick={() => editCourse(index)}>Edit</button>
+                    <button className="modal-icon-btn delete" onClick={() => setCourses(courses.filter((_, i) => i !== index))}>Delete</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isStudentModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsStudentModalOpen(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3 className="modal-title">Students</h3>
+              <button className="modal-close" onClick={() => setIsStudentModalOpen(false)}>×</button>
+            </div>
+            <div className="modal-body">
+              {students.length === 0 ? <p className="text-gray text-sm">No students added yet.</p> : students.map((student, index) => (
+                <div key={index} className="modal-item">
+                  <div>
+                    <span className="modal-item-title">{student.name}</span>
+                    <span className="modal-item-subtitle">Enrolled: {student.courses}</span>
+                  </div>
+                  <div className="modal-actions">
+                    <button className="modal-icon-btn" onClick={() => editStudent(index)}>Edit</button>
+                    <button className="modal-icon-btn delete" onClick={() => setStudents(students.filter((_, i) => i !== index))}>Delete</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

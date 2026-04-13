@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import RecentTimetables from '../components/dashboard/RecentTimetables';
 import EmptyState from '../components/dashboard/EmptyState';
 
 const Dashboard = ({ onGenerateClick }) => {
@@ -17,7 +16,6 @@ const Dashboard = ({ onGenerateClick }) => {
 
                 <div className="dashboard-content">
                     <EmptyState onGenerateClick={onGenerateClick} />
-                    <RecentTimetables />
                 </div>
             </div>
         </main>

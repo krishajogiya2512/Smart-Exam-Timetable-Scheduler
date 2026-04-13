@@ -13,6 +13,20 @@ const formatTime = (time24) => {
   return `${hour}:${minute} ${ampm}`;
 };
 
+// Reverse format from 12h to 24h for the input value
+const reverseFormatTime = (time12) => {
+  if (!time12) return "";
+  const [time, modifier] = time12.split(' ');
+  let [hours, minutes] = time.split(':');
+  if (hours === '12') {
+    hours = '00';
+  }
+  if (modifier === 'PM') {
+    hours = parseInt(hours, 10) + 12;
+  }
+  return `${hours.toString().padStart(2, '0')}:${minutes}`;
+};
+
 export default function Step2({ rooms, setRooms, slots, setSlots, onNext, onBack }) {
   const [roomName, setRoomName] = useState("");
   const [capacity, setCapacity] = useState("");
@@ -22,6 +36,7 @@ export default function Step2({ rooms, setRooms, slots, setSlots, onNext, onBack
   const [endTime, setEndTime] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRoomModalOpen, setIsRoomModalOpen] = useState(false);
 
   const addRoom = () => {
     if (!roomName || !capacity) return;
@@ -37,12 +52,18 @@ export default function Step2({ rooms, setRooms, slots, setSlots, onNext, onBack
     setCapacity("");
   };
 
+  const editRoom = (index) => {
+    const item = rooms[index];
+    setRoomName(item.name);
+    setCapacity(item.capacity);
+    setRooms(rooms.filter((_, i) => i !== index));
+    setIsRoomModalOpen(false);
+  };
+
   const addSlot = () => {
     if (!date || !startTime || !endTime) return;
 
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    // We add timezone adjustment or parse correctly by splitting, 
-    // simply new Date(date) can offset in JS depending on local timezone, better to use fixed formatting
     const [year, month, dayObj] = date.split('-');
     const dateObj = new Date(year, month - 1, dayObj);
     const derivedDay = days[dateObj.getDay()];
@@ -53,13 +74,24 @@ export default function Step2({ rooms, setRooms, slots, setSlots, onNext, onBack
       id: `T${slots.length + 1}`,
       day: derivedDay,
       date: date,
-      time: formattedTime
+      time: formattedTime,
+      _rawStart: startTime,
+      _rawEnd: endTime
     };
 
     setSlots([...slots, newSlot]);
     setDate("");
     setStartTime("");
     setEndTime("");
+  };
+
+  const editSlot = (index) => {
+    const item = slots[index];
+    setDate(item.date);
+    setStartTime(item._rawStart);
+    setEndTime(item._rawEnd);
+    setSlots(slots.filter((_, i) => i !== index));
+    setIsModalOpen(false);
   };
 
   return (
@@ -76,7 +108,7 @@ export default function Step2({ rooms, setRooms, slots, setSlots, onNext, onBack
               <label className="label">Room name</label>
               <input
                 className="input-field"
-                placeholder="e.g. Hall A"
+                placeholder=""
                 value={roomName}
                 onChange={(e) => setRoomName(e.target.value)}
               />
@@ -86,7 +118,7 @@ export default function Step2({ rooms, setRooms, slots, setSlots, onNext, onBack
               <input
                 type="number"
                 className="input-field"
-                placeholder="e.g. 100"
+                placeholder=""
                 value={capacity}
                 onChange={(e) => setCapacity(e.target.value)}
               />
@@ -98,29 +130,9 @@ export default function Step2({ rooms, setRooms, slots, setSlots, onNext, onBack
           </button>
 
           {rooms.length > 0 && (
-            <div className="table-container" style={{ marginTop: '24px' }}>
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Room</th>
-                    <th>Capacity</th>
-                    <th>Utilization</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rooms.map((room, index) => (
-                    <tr key={index}>
-                      <td style={{ fontWeight: 500 }}>{room.name}</td>
-                      <td>{room.capacity} seats</td>
-                      <td>
-                        <div style={{ background: '#f3f4f6', height: '6px', borderRadius: '3px', overflow: 'hidden', width: '100px' }}>
-                          <div style={{ background: '#4f46e5', height: '100%', width: `${room.utilization}%` }}></div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div style={{ marginTop: '24px', padding: '16px', background: '#f9fafb', border: '1px solid var(--border)', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span className="text-sm" style={{ color: 'var(--text-gray)' }}>Total Rooms: <strong style={{ color: 'var(--text-dark)' }}>{rooms.length}</strong></span>
+              <button className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.75rem', background: 'white' }} onClick={() => setIsRoomModalOpen(true)}>View Rooms</button>
             </div>
           )}
 
@@ -191,13 +203,41 @@ export default function Step2({ rooms, setRooms, slots, setSlots, onNext, onBack
               <button className="modal-close" onClick={() => setIsModalOpen(false)}>×</button>
             </div>
             <div className="modal-body">
-              {slots.map((slot, index) => (
+              {slots.length === 0 ? <p className="text-gray text-sm">No slots added yet.</p> : slots.map((slot, index) => (
                 <div key={index} className="modal-item">
                   <div>
                     <span className="modal-item-title">{slot.day}, {slot.date}</span>
-                    <span className="modal-item-subtitle">{slot.time}</span>
+                    <span className="modal-item-subtitle">{slot.time} • [{slot.id}]</span>
                   </div>
-                  <strong style={{ fontSize: '0.875rem' }}>[{slot.id}]</strong>
+                  <div className="modal-actions">
+                    <button className="modal-icon-btn" onClick={() => editSlot(index)}>Edit</button>
+                    <button className="modal-icon-btn delete" onClick={() => setSlots(slots.filter((_, i) => i !== index))}>Delete</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isRoomModalOpen && (
+        <div className="modal-overlay" onClick={() => setIsRoomModalOpen(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3 className="modal-title">Exam Rooms</h3>
+              <button className="modal-close" onClick={() => setIsRoomModalOpen(false)}>×</button>
+            </div>
+            <div className="modal-body">
+              {rooms.length === 0 ? <p className="text-gray text-sm">No rooms added yet.</p> : rooms.map((room, index) => (
+                <div key={index} className="modal-item">
+                  <div>
+                    <span className="modal-item-title">{room.name}</span>
+                    <span className="modal-item-subtitle">Capacity: {room.capacity} seats</span>
+                  </div>
+                  <div className="modal-actions">
+                    <button className="modal-icon-btn" onClick={() => editRoom(index)}>Edit</button>
+                    <button className="modal-icon-btn delete" onClick={() => setRooms(rooms.filter((_, i) => i !== index))}>Delete</button>
+                  </div>
                 </div>
               ))}
             </div>

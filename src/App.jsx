@@ -1,21 +1,9 @@
-import React, { useState } from 'react';
-import Sidebar from './components/dashboard/Sidebar';
-import Dashboard from './pages/Dashboard';
-import Generate from './pages/Generate';
+import React from 'react'
 
-function App() {
-  const [currentPage, setCurrentPage] = useState('dashboard');
-
+const App = () => {
   return (
-    <div className="app-container">
-      {/* Global Sidebar */}
-      <Sidebar activePage={currentPage} onNavigate={setCurrentPage} />
-      
-      {/* Dynamic Content */}
-      {currentPage === 'dashboard' && <Dashboard onGenerateClick={() => setCurrentPage('generate')} />}
-      {currentPage === 'generate' && <Generate onComplete={() => setCurrentPage('dashboard')} />}
-    </div>
-  );
+    <div>App</div>
+  )
 }
 
-export default App;
+export default App
